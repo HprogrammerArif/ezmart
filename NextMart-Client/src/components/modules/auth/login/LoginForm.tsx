@@ -112,11 +112,10 @@ export default function LoginForm() {
               onChange={handleReCaptcha}
               className="mx-auto"
             />
-            <p>Fix this later</p>
           </div>
 
           <Button
-            // disabled={reCaptchaStatus ? false : true}
+            disabled={reCaptchaStatus ? false : true}
             type="submit"
             className="mt-5 w-full"
           >
