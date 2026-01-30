@@ -18,6 +18,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { protectedRoutes } from "@/contants";
 import { useAppSelector } from "@/redux/hooks";
 import { orderedProductsSelector } from "@/redux/features/cartSlice";
+import Image from "next/image";
+import logo from "@/assets/ezmartlogo.png"
 
 export default function Navbar() {
   const { user, setIsLoading } = useUser();
@@ -38,7 +40,14 @@ export default function Navbar() {
       <div className="container flex justify-between items-center mx-auto h-16 px-5">
         <Link href="/">
           <h1 className="text-2xl font-black flex items-center">
-            <Logo /> Next Mart
+            {/* <Logo /> Next Mart */}
+            <Image
+              src={logo}
+              width={120}
+              height={120}
+              alt="logo"
+              className="w-full h-full object-contain"
+            />
           </h1>
         </Link>
         <div className="max-w-md  flex-grow">

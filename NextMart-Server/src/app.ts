@@ -7,7 +7,6 @@ import router from "./app/routes";
 import globalErrorHandler from "./app/middleware/globalErrorHandler";
 import notFound from "./app/middleware/notFound";
 import seedAdmin from "./app/DB/seed";
-// import seedAdmin from './app/DB/seed';
 // import { sslService } from './app/modules/sslcommerz/sslcommerz.service';
 
 const app: Application = express();
@@ -46,8 +45,8 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
       )} minutes`,
     },
     developerContact: {
-      email: "fahimfiroz.ph@gmail.com",
-      website: "https://programming-hero.com",
+      email: "work.mohammedarif@gmail.com",
+      website: "https://mohammedarif.com",
     },
   });
 });
