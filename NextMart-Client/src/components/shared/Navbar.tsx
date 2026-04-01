@@ -20,6 +20,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { orderedProductsSelector } from "@/redux/features/cartSlice";
 import Image from "next/image";
 import logo from "@/assets/ezmartlogo.png"
+import Container from "./Container";
 
 export default function Navbar() {
   const { user, setIsLoading } = useUser();
@@ -37,7 +38,8 @@ export default function Navbar() {
 
   return (
     <header className="border-b bg-background w-full sticky top-0 z-10">
-      <div className="container flex justify-between items-center mx-auto h-16 px-5">
+      <Container>
+      <div className="flex justify-between items-center h-16 px-5">
         <Link href="/">
           <h1 className="text-2xl font-black flex items-center">
             {/* <Logo /> Next Mart */}
@@ -114,6 +116,7 @@ export default function Navbar() {
           )}
         </nav>
       </div>
+      </Container>
     </header>
   );
 }
