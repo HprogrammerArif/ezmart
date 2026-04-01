@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Heart, LogOut, User, Clock, ShoppingBag, Search, Menu } from "lucide-react";
+import { Heart, LogOut, User, Clock, ShoppingBag, Search, Menu, X } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -21,12 +21,15 @@ import Image from "next/image";
 import logo from "@/assets/ezmartlogo.png"
 import Container from "./Container";
 import { Input } from "../ui/input";
+import SearchOverlay from "./SearchOverlay";
 
 export default function Navbar() {
   const { user, setIsLoading } = useUser();
   const pathname = usePathname();
   const router = useRouter();
   const products = useAppSelector(orderedProductsSelector);
+  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const handleLogOut = () => {
     logout();
@@ -37,7 +40,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="border-b bg-white w-full sticky top-0 z-50">
+    <header className="border-b bg-white w-full sticky top-0 z-[110] transition-all">
       <Container>
         <div className="flex justify-between items-center h-24 px-4 sm:px-6 relative">
           {/* Left Side: Logo & Mobile Menu */}
@@ -70,15 +73,32 @@ export default function Navbar() {
           {/* Right Side: Search and Actions */}
           <div className="flex-1 flex justify-end items-center gap-8">
             {/* Professional Search Bar */}
-            <div className="hidden md:flex flex-1 max-w-[150px] lg:max-w-[220px] group relative  transition-all rounded-full overflow-hidden border-2 border-gray-200 hover:border-gray-300 focus-within:border-gray-300">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-black transition-colors">
-                <Search className="w-4 h-4" />
-              </div>
-              <Input
-                type="text"
-                placeholder="I'm looking for..."
-                className="pl-10 pr-4 py-2 h-10 bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] font-medium placeholder:text-gray-600"
-              />
+            <div
+              className={`hidden md:flex flex-1 transition-all rounded-full border-2 items-center px-4 py-2 h-10 max-w-[150px] lg:max-w-[220px] border-gray-200 hover:border-gray-300`}
+            >
+              <Search className={`w-4 h-4 mr-3 transition-colors ${isSearchOpen ? "text-black" : "text-gray-400"}`} />
+              {isSearchOpen ? (
+                <div className="flex-1 flex items-center">
+                <input
+                  autoFocus
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="I'm looking for..."
+                  className="w-full bg-transparent border-none focus:outline-none text-[15px] font-medium placeholder:text-gray-400"
+                />
+                <button onClick={() => { setIsSearchOpen(false); setSearchQuery(""); }}>
+                  <X className="w-4 h-4 text-gray-400 hover:text-black" />
+                </button>
+                </div>
+              ) : (
+                <span 
+                  onClick={() => setIsSearchOpen(true)}
+                  className="text-[15px] cursor-pointer font-medium text-gray-600 truncate flex-1"
+                >
+                  I&apos;m looking for...
+                </span>
+              )}
             </div>
 
 
@@ -86,8 +106,11 @@ export default function Navbar() {
             <div className="flex items-center gap-4 lg:gap-6 text-gray-700">
 
               {/* Mobile Search Button */}
-              <button className="md:hidden hover:text-red-500 transition-colors">
-                <Search className="w-6 h-6" />
+              <button
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="md:hidden hover:text-red-500 transition-colors"
+              >
+                {isSearchOpen ? <X className="w-6 h-6" /> : <Search className="w-6 h-6" />}
               </button>
 
               {/* User Dropdown */}
@@ -146,7 +169,16 @@ export default function Navbar() {
           </div>
         </div>
       </Container>
+
+      <SearchOverlay
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
     </header>
   );
+
+
 
 }
