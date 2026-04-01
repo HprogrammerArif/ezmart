@@ -30,6 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.className} antialiased`}
       >
         <Providers>
+          {/* <div className='pt-24 min-h-[calc(100vh-68px)]'></div> */}
           <Toaster richColors position="top-center" />
           {children}
         </Providers>
