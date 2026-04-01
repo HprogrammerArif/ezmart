@@ -1,7 +1,6 @@
 "use client";
-import Logo from "@/assets/svgs/Logo";
-import { Button } from "../ui/button";
-import { Heart, LogOut, ShoppingCart } from "lucide-react";
+import React from "react";
+import { Heart, LogOut, User, Clock, ShoppingBag, Search, Menu } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -37,86 +36,106 @@ export default function Navbar() {
   };
 
   return (
-    <header className="border-b bg-background w-full sticky top-0 z-10">
+    <header className="border-b bg-white w-full sticky top-0 z-50">
       <Container>
-      <div className="flex justify-between items-center h-16 px-5">
-        <Link href="/">
-          <h1 className="text-2xl font-black flex items-center">
-            {/* <Logo /> Next Mart */}
-            <Image
-              src={logo}
-              width={120}
-              height={120}
-              alt="logo"
-              className="w-full h-full object-contain"
-            />
-          </h1>
-        </Link>
-        <div className="max-w-md  flex-grow">
-          <input
-            type="text"
-            placeholder="Search for products"
-            className="w-full max-w-6xl border border-gray-300 rounded-full py-2 px-5"
-          />
-        </div>
-        <nav className="flex gap-2">
-          <Button variant="outline" className="rounded-full p-0 size-10">
-            <Heart />
-          </Button>
-          <Link href="/cart" passHref>
-            <Button
-              variant="outline"
-              className="rounded-full size-10 flex items-center justify-center gap-1"
-            >
-              <ShoppingCart className="w-5 h-5" />
-              <span className="text-red-500 font-bold">
-                {products?.length ?? 0}
-              </span>
-            </Button>
-          </Link>
+        <div className="flex justify-between items-center h-24 px-4 sm:px-6 relative">
+          {/* Left Side: Logo & Mobile Menu */}
+          <div className="flex-1 flex justify-start items-center gap-4">
+            <button className="lg:hidden text-gray-800">
+              <Menu className="w-6 h-6" />
+            </button>
+            <Link href="/" className="flex items-center">
+              <Image
+                src={logo}
+                width={140}
+                height={140}
+                alt="ezmart logo"
+                className="object-contain transition-transform hover:scale-105"
+              />
+            </Link>
+          </div>
 
-          {user?.email ? (
-            <>
-              <Link href="/create-shop">
-                <Button className="rounded-full">Create Shop</Button>
-              </Link>
 
+          {/* Center: Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-8 font-medium text-[15px] text-gray-800 tracking-tight">
+            <Link href="/" className="hover:text-red-500 transition-colors">Home</Link>
+            <Link href="/shop" className="hover:text-red-500 transition-colors">Shop All</Link>
+            <Link href="/collections" className="hover:text-red-500 transition-colors">Collections</Link>
+            <Link href="/track-order" className="hover:text-red-500 transition-colors">Track Order</Link>
+            <Link href="/contact" className="hover:text-red-500 transition-colors">Contact</Link>
+          </nav>
+
+          {/* Right Side: Search and Actions */}
+          <div className="flex-1 flex justify-end items-center gap-5">
+            {/* Compact Search Bar */}
+            <div className="hidden xl:flex items-center bg-gray-100 rounded-full px-4 py-2 border border-transparent focus-within:border-gray-200 transition-all w-64">
+              <Search className="w-4 h-4 text-gray-400 mr-2" />
+              <input
+                type="text"
+                placeholder="I'm looking for..."
+                className="bg-transparent border-none outline-none text-sm w-full text-gray-700 placeholder:text-gray-400"
+              />
+            </div>
+
+
+            <div className="flex items-center gap-4 text-gray-700">
+              {/* User Dropdown */}
               <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>User</AvatarFallback>
-                  </Avatar>
+                <DropdownMenuTrigger className="outline-none hover:text-red-500 transition-colors">
+                  <User className="w-6 h-6" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>My Shop</DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    className="bg-red-500 cursor-pointer"
-                    onClick={handleLogOut}
-                  >
-                    <LogOut />
-                    <span>Log Out</span>
-                  </DropdownMenuItem>
+                <DropdownMenuContent className="w-48">
+                  {user?.email ? (
+                    <>
+                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>My Shop</DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        className="text-red-500 cursor-pointer"
+                        onClick={handleLogOut}
+                      >
+                        <LogOut className="w-4 h-4 mr-2" />
+                        <span>Log Out</span>
+                      </DropdownMenuItem>
+                    </>
+                  ) : (
+                    <DropdownMenuItem>
+                      <Link href="/login" className="w-full">Login</Link>
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
-            </>
-          ) : (
-            <Link href="/login">
-              <Button className="rounded-full" variant="outline">
-                Login
-              </Button>
-            </Link>
-          )}
-        </nav>
-      </div>
+
+              {/* History / Recently Viewed */}
+              <button className="hover:text-red-500 transition-colors hidden sm:block">
+                <Clock className="w-6 h-6" />
+              </button>
+
+              {/* Wishlist */}
+              <Link href="/wishlist" className="relative group hover:text-red-500 transition-colors">
+                <Heart className="w-6 h-6" />
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                  3
+                </span>
+              </Link>
+
+              {/* Cart */}
+              <Link href="/cart" className="relative group hover:text-red-500 transition-colors">
+                <ShoppingBag className="w-6 h-6" />
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                  {products?.length ?? 0}
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
       </Container>
     </header>
   );
+
 }
