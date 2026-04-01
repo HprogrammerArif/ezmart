@@ -113,42 +113,42 @@ export default function Navbar() {
                 {isSearchOpen ? <X className="w-6 h-6" /> : <Search className="w-6 h-6" />}
               </button>
 
-              {/* User Dropdown */}
-              <DropdownMenu>
-                <DropdownMenuTrigger className="outline-none hover:text-red-500 transition-colors">
-                  <User className="w-6 h-6" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-48">
-                  {user?.email ? (
-                    <>
-                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>My Shop</DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        className="text-red-500 cursor-pointer"
-                        onClick={handleLogOut}
-                      >
-                        <LogOut className="w-4 h-4 mr-2" />
-                        <span>Log Out</span>
-                      </DropdownMenuItem>
-                    </>
-                  ) : (
+              {/* User / Login */}
+              {user?.email ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="outline-none hover:text-red-500 transition-colors">
+                    <User className="w-6 h-6" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-48">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
                     <DropdownMenuItem>
-                      <Link href="/login" className="w-full">Login</Link>
+                      <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>
                     </DropdownMenuItem>
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    <DropdownMenuItem>My Shop</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      className="text-red-500 cursor-pointer"
+                      onClick={handleLogOut}
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      <span>Log Out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link href="/login" className="hover:text-red-500 transition-colors">
+                  <User className="w-6 h-6" />
+                </Link>
+              )}
 
               {/* History / Recently Viewed */}
               <button className="hover:text-red-500 transition-colors hidden sm:block">
                 <Clock className="w-5 h-5" />
               </button>
+
+            
 
               {/* Wishlist */}
               <Link href="/wishlist" className="relative group hover:text-red-500 transition-colors">

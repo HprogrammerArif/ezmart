@@ -8,6 +8,8 @@ import { AuthValidation } from './auth.validation';
 
 const router = Router();
 
+router.post('/register', clientInfoParser, AuthController.registerUser);
+
 router.post('/login', clientInfoParser, AuthController.loginUser);
 
 router.post(

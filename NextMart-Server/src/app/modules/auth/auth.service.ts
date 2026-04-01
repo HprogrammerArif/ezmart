@@ -11,6 +11,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { generateOtp } from '../../utils/generateOtp';
 import { EmailHelper } from '../../utils/emailHelper';
+import { UserRole } from '../user/user.interface';
 
 const loginUser = async (payload: IAuth) => {
    const session = await mongoose.startSession();
@@ -66,6 +67,38 @@ const loginUser = async (payload: IAuth) => {
          accessToken,
          refreshToken,
       };
+   } catch (error) {
+      await session.abortTransaction();
+      throw error;
+   } finally {
+      session.endSession();
+   }
+};
+
+const registerUser = async (payload: IAuth) => {
+   const session = await User.startSession();
+
+   try {
+      session.startTransaction();
+
+      const isUserExist = await User.findOne({ email: payload.email }).session(session);
+      if (isUserExist) {
+         throw new AppError(StatusCodes.BAD_REQUEST, 'User already exists!');
+      }
+
+      const hashedPassword = await bcrypt.hash(
+         String(payload.password),
+         Number(config.bcrypt_salt_rounds)
+      );
+
+      const user = await User.create(
+         [{ ...payload, password: hashedPassword, role: UserRole.USER }],
+         { session }
+      );
+
+      await session.commitTransaction();
+
+      return user;
    } catch (error) {
       await session.abortTransaction();
       throw error;
@@ -281,6 +314,7 @@ const resetPassword = async ({
 };
 
 export const AuthService = {
+   registerUser,
    loginUser,
    refreshToken,
    changePassword,
