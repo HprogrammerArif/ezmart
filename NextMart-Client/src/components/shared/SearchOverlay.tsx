@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Search, X, TrendingUp, Sparkles } from "lucide-react";
 import ProductCard from "@/components/ui/core/ProductCard";
 import { IProduct } from "@/types";
-import { getAllProducts } from "@/services/Product";
+import { getAllProducts, getPopularProducts } from "@/services/Product";
 import Container from "./Container";
 import Link from "next/link";
 
@@ -46,8 +46,8 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({
   useEffect(() => {
     const fetchPopular = async () => {
       try {
-        const { data } = await getAllProducts();
-        setPopularProducts(data?.slice(0, 5) || []);
+        const { data } = await getPopularProducts(5);
+        setPopularProducts(data || []);
       } catch (error) {
         console.error("Error fetching popular products:", error);
       }

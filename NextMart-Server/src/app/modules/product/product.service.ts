@@ -255,6 +255,61 @@ const getTrendingProducts = async (limit: number) => {
    return trendingProducts;
 };
 
+const getPopularProducts = async (limit: number) => {
+   const now = new Date();
+   const last30Days = new Date(now.setDate(now.getDate() - 30));
+
+   const popularProducts = await Order.aggregate([
+      {
+         $match: {
+            createdAt: { $gte: last30Days },
+         },
+      },
+      {
+         $unwind: '$products',
+      },
+      {
+         $group: {
+            _id: '$products.product',
+            orderCount: { $sum: '$products.quantity' },
+         },
+      },
+      {
+         $sort: { orderCount: -1 },
+      },
+      {
+         $limit: limit || 10,
+      },
+      {
+         $lookup: {
+            from: 'products',
+            localField: '_id',
+            foreignField: '_id',
+            as: 'productDetails',
+         },
+      },
+      {
+         $unwind: '$productDetails',
+      },
+      {
+         $project: {
+            _id: '$_id',
+            orderCount: 1,
+            name: '$productDetails.name',
+            price: '$productDetails.price',
+            offer: '$productDetails.offer',
+            offerPrice: '$productDetails.offerPrice',
+            imageUrls: '$productDetails.imageUrls',
+            stock: '$productDetails.stock',
+            averageRating: '$productDetails.averageRating',
+         },
+      },
+   ]);
+
+   return popularProducts;
+};
+
+
 const getSingleProduct = async (productId: string) => {
    const product = await Product.findById(productId)
       .populate("shop brand category");
@@ -396,5 +451,6 @@ export const ProductService = {
    getSingleProduct,
    updateProduct,
    deleteProduct,
-   getMyShopProducts
+   getMyShopProducts,
+   getPopularProducts
 };

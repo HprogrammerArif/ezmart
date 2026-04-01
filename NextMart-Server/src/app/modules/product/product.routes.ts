@@ -13,6 +13,8 @@ router.get('/', ProductController.getAllProduct);
 
 router.get('/trending', ProductController.getTrendingProducts);
 
+router.get('/popular', ProductController.getPopularProducts);
+
 router.get(
    '/my-shop-products',
    auth(UserRole.USER),

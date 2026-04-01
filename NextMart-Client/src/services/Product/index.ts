@@ -59,6 +59,26 @@ export const getSingleProduct = async (productId: string) => {
   }
 };
 
+// get popular products
+export const getPopularProducts = async (limit?: number) => {
+  try {
+    const query = limit ? `?limit=${limit}` : "";
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/product/popular${query}`,
+      {
+        next: {
+          tags: ["PRODUCT"],
+        },
+      }
+    );
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    return Error(error.message);
+  }
+};
+
+
 // add product
 export const addProduct = async (productData: FormData): Promise<any> => {
   try {
