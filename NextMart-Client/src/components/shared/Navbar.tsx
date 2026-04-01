@@ -20,6 +20,7 @@ import { orderedProductsSelector } from "@/redux/features/cartSlice";
 import Image from "next/image";
 import logo from "@/assets/ezmartlogo.png"
 import Container from "./Container";
+import { Input } from "../ui/input";
 
 export default function Navbar() {
   const { user, setIsLoading } = useUser();
@@ -47,12 +48,13 @@ export default function Navbar() {
             <Link href="/" className="flex items-center">
               <Image
                 src={logo}
-                width={140}
-                height={140}
+                width={120}
+                height={120}
                 alt="ezmart logo"
-                className="object-contain transition-transform hover:scale-105"
+                className="w-28 sm:w-36 h-auto object-contain transition-transform hover:scale-105"
               />
             </Link>
+
           </div>
 
 
@@ -66,19 +68,28 @@ export default function Navbar() {
           </nav>
 
           {/* Right Side: Search and Actions */}
-          <div className="flex-1 flex justify-end items-center gap-5">
-            {/* Compact Search Bar */}
-            <div className="hidden xl:flex items-center bg-gray-100 rounded-full px-4 py-2 border border-transparent focus-within:border-gray-200 transition-all w-64">
-              <Search className="w-4 h-4 text-gray-400 mr-2" />
-              <input
+          <div className="flex-1 flex justify-end items-center gap-8">
+            {/* Professional Search Bar */}
+            <div className="hidden md:flex flex-1 max-w-[150px] lg:max-w-[220px] group relative  transition-all rounded-full overflow-hidden border-2 border-gray-200 hover:border-gray-300 focus-within:border-gray-300">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-black transition-colors">
+                <Search className="w-4 h-4" />
+              </div>
+              <Input
                 type="text"
                 placeholder="I'm looking for..."
-                className="bg-transparent border-none outline-none text-sm w-full text-gray-700 placeholder:text-gray-400"
+                className="pl-10 pr-4 py-2 h-10 bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 text-[15px] font-medium placeholder:text-gray-600"
               />
             </div>
 
 
-            <div className="flex items-center gap-4 text-gray-700">
+
+            <div className="flex items-center gap-4 lg:gap-6 text-gray-700">
+
+              {/* Mobile Search Button */}
+              <button className="md:hidden hover:text-red-500 transition-colors">
+                <Search className="w-6 h-6" />
+              </button>
+
               {/* User Dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger className="outline-none hover:text-red-500 transition-colors">
@@ -113,12 +124,12 @@ export default function Navbar() {
 
               {/* History / Recently Viewed */}
               <button className="hover:text-red-500 transition-colors hidden sm:block">
-                <Clock className="w-6 h-6" />
+                <Clock className="w-5 h-5" />
               </button>
 
               {/* Wishlist */}
               <Link href="/wishlist" className="relative group hover:text-red-500 transition-colors">
-                <Heart className="w-6 h-6" />
+                <Heart className="w-5 h-5" />
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
                   3
                 </span>
@@ -126,7 +137,7 @@ export default function Navbar() {
 
               {/* Cart */}
               <Link href="/cart" className="relative group hover:text-red-500 transition-colors">
-                <ShoppingBag className="w-6 h-6" />
+                <ShoppingBag className="w-5 h-5" />
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
                   {products?.length ?? 0}
                 </span>
