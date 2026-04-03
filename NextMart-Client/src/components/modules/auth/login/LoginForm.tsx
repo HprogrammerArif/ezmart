@@ -14,6 +14,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import Logo from "@/assets/svgs/Logo";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Eye, EyeOff } from "lucide-react";
 import { loginUser, reCaptchaTokenVerification } from "@/services/AuthService";
 import { toast } from "sonner";
 import { loginSchema } from "./loginValidation";
@@ -29,6 +30,7 @@ export default function LoginForm() {
   const { setIsLoading } = useUser();
 
   const [reCaptchaStatus, setReCaptchaStatus] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirectPath");
@@ -52,6 +54,7 @@ export default function LoginForm() {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginUser(data);
+      console.log({res})
       setIsLoading(true);
       if (res?.success) {
         toast.success(res?.message);
@@ -99,7 +102,24 @@ export default function LoginForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input type="password" {...field} value={field.value || ""} />
+                  <div className="relative">
+                    <Input 
+                      type={showPassword ? "text" : "password"} 
+                      {...field} 
+                      value={field.value || ""} 
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-5 w-5" />
+                      ) : (
+                        <Eye className="h-5 w-5" />
+                      )}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

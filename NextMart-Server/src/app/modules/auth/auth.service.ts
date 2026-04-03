@@ -86,13 +86,8 @@ const registerUser = async (payload: IAuth) => {
          throw new AppError(StatusCodes.BAD_REQUEST, 'User already exists!');
       }
 
-      const hashedPassword = await bcrypt.hash(
-         String(payload.password),
-         Number(config.bcrypt_salt_rounds)
-      );
-
       const user = await User.create(
-         [{ ...payload, password: hashedPassword, role: UserRole.USER }],
+         [{ ...payload, role: UserRole.USER }],
          { session }
       );
 
