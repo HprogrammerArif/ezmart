@@ -116,8 +116,11 @@ export default function Navbar() {
               {/* User / Login */}
               {user?.email ? (
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="outline-none hover:text-red-500 transition-colors">
-                    <User className="w-6 h-6" />
+                  <DropdownMenuTrigger className="outline-none hover:text-red-500 transition-colors cursor-pointer z-30">
+                   <Avatar>
+                    <AvatarImage src={user?.avatar} />
+                    <AvatarFallback>{user?.name.charAt(0).toUpperCase()}</AvatarFallback>
+                   </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-48">
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
