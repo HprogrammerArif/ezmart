@@ -5,7 +5,7 @@ import { IBrand } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-const TopCollection = async () => {
+const TopBrands = async () => {
   const { data: brands } = await getAllBrands();
 
   return (
@@ -37,4 +37,4 @@ const TopCollection = async () => {
   );
 };
 
-export default TopCollection;
+export default TopBrands;

@@ -2,16 +2,18 @@ import Category from "@/components/modules/home/Category";
 import FeaturedProducts from "@/components/modules/home/FeaturedProducts";
 import FlashSale from "@/components/modules/home/FlashSale";
 import HeroSection from "@/components/modules/home/HeroSection";
+import TopCollection from "@/components/modules/home/TopBrands";
 import TopBrands from "@/components/modules/home/TopBrands";
 
 const HomePage = async () => {
   return (
     <div>
       <HeroSection />
-      <Category />
+       <TopCollection />
+      {/* <Category />
       <FeaturedProducts />
       <FlashSale />
-      <TopBrands />
+      <TopBrands /> */}
     </div>
   );
 };
