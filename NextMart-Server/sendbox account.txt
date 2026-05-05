@@ -1,0 +1,23 @@
+password: MascotForge
+
+username: Brandon@LifestylesSports.com
+
+
+
+
+Confirm your information
+Please check your all information before you proceed to create a new sandbox account
+
+Website	https://ezmartbd.com/
+Company Name	ezmartbd
+Company Address	Bosundora Main gate, Dhaka, Bangladesh
+Name	Arif
+Email	work.mohammadarif@gmail.com
+Phone Number	01608414032
+Username	rakibhasanarif
+pass: Rakib55601@
+
+
+
+User Login Id	rakibhasanarif
+User Name	Arif
