@@ -35,10 +35,6 @@ const SportsHomeView = async () => {
         <SportsHeroBanner />
       </ScrollReveal>
    
-      <ScrollReveal animation="up" delay={150}>
-        <FeaturedProducts />
-      </ScrollReveal>
-
 
       
 
