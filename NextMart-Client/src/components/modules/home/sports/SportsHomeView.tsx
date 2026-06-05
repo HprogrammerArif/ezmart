@@ -25,19 +25,24 @@ const SportsHomeView = async () => {
        {/* Hero doesn't need reveal — it's above the fold */}
       <HeroSection />
 
+
+<ScrollReveal animation="fade" delay={100}>
+        <SportsTopCollections />
+      </ScrollReveal>
+
+
+        <ScrollReveal animation="up" delay={150}>
+        <SportsHeroBanner />
+      </ScrollReveal>
    
       <ScrollReveal animation="up" delay={150}>
         <FeaturedProducts />
       </ScrollReveal>
 
 
-      <ScrollReveal animation="fade" delay={100}>
-        <SportsTopCollections />
-      </ScrollReveal>
+      
 
-      <ScrollReveal animation="up" delay={150}>
-        <SportsHeroBanner />
-      </ScrollReveal>
+    
 
       {newArrivals.length > 0 && (
         <ScrollReveal animation="up" delay={200}>

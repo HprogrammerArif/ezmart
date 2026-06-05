@@ -1,7 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, Globe } from "lucide-react";
 import Container from "./Container";
+import { usePathname, useRouter } from "@/libs/I18nNavigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const promotions = [
   "Sign up for 15% off your first order",
@@ -10,6 +17,13 @@ const promotions = [
 ];
 
 export default function SubNavbar() {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const changeLanguage = (locale: 'en' | 'bn') => {
+    router.replace(pathname, { locale });
+  };
+
   const [currentPromoIndex, setCurrentPromoIndex] = useState(0);
 
   const nextPromo = React.useCallback(() => {
@@ -83,14 +97,30 @@ export default function SubNavbar() {
           </div>
 
 
-          {/* Right Side: Country Selector */}
-          <div className="flex items-center gap-2 cursor-pointer hover:text-white/70 transition-all group shrink-0">
-            <span role="img" aria-label="USA Flag" className="text-xs">
-              🇺🇸
-            </span>
-            <span className="font-medium hidden sm:inline-block">United States (USD $)</span>
-            <span className="font-medium sm:hidden">USD $</span>
-            <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform duration-300" />
+          {/* Right Side: Controls */}
+          <div className="flex items-center gap-6 shrink-0">
+            {/* Language Selector */}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-1.5 hover:text-white/70 outline-none cursor-pointer transition-all">
+                <Globe className="w-3.5 h-3.5" />
+                <span className="font-medium hidden sm:inline-block">Language</span>
+                <ChevronDown className="w-3 h-3 opacity-70" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => changeLanguage('en')}>English</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => changeLanguage('bn')}>Bengali (বাংলা)</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Country Selector */}
+            <div className="flex items-center gap-2 cursor-pointer hover:text-white/70 transition-all group">
+              <span role="img" aria-label="USA Flag" className="text-xs">
+                🇺🇸
+              </span>
+              <span className="font-medium hidden sm:inline-block">United States (USD $)</span>
+              <span className="font-medium sm:hidden">USD $</span>
+              <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform duration-300" />
+            </div>
           </div>
         </div>
       </Container>

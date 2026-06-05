@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Heart, LogOut, User, Clock, ShoppingBag, Search, Menu, X, Globe } from "lucide-react";
+import { Heart, LogOut, User, Clock, ShoppingBag, Search, Menu, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/libs/I18nNavigation";
 import {
@@ -39,9 +39,7 @@ export default function Navbar() {
     }
   };
 
-  const changeLanguage = (locale: 'en' | 'bn') => {
-    router.replace(pathname, { locale });
-  };
+
 
   return (
     <>
@@ -140,18 +138,10 @@ export default function Navbar() {
                   </Link>
                 )}
 
-                {/* <button className="hover:text-accent transition-colors hidden sm:block">
+                <button className="hover:text-accent transition-colors hidden sm:block">
                   <Clock className="w-5 h-5" />
-                </button> */}
-                 <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 hover:text-gray-300 outline-none cursor-pointer">
-              <Globe className="w-4 h-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => changeLanguage('en')}>English</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => changeLanguage('bn')}>Bengali (বাংলা)</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                </button>
+
 
                 <Link href="/wishlist" className="relative group hover:text-accent transition-colors">
                   <Heart className="w-5 h-5" />
