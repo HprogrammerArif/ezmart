@@ -1,0 +1,15 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "shopAll": "Shop All",
+    "collections": "Collections",
+    "trackOrder": "Track Order",
+    "contact": "Contact",
+    "searchPlaceholder": "I'm looking for..."
+  },
+  "Hero": {
+    "title1": "FOOTY STYLE HUB.",
+    "title2": "WELCOMES YOU !",
+    "subtitle": "YOUR PREMIER DESTINATION FOR THE BEST QUALITY KITS FOOTBALL HAS TO OFFER!"
+  }
+}

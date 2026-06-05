@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import banner1 from "@/assets/banner/Footystyle_site_backgrounds_Buy_3_desktop.jpg";
 import banner2 from "@/assets/banner/Footystyle_site_backgrounds_Trusted_desktop.jpg";
@@ -10,6 +11,7 @@ import banner3 from "@/assets/banner/Footystyle_site_backgrounds_welcome_desktop
 const banners = [banner1, banner2, banner3];
 
 const HeroSection = () => {
+  const t = useTranslations('Hero');
   const [current, setCurrent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -32,7 +34,7 @@ const HeroSection = () => {
   }, [current, goToSlide]);
 
   return (
-    <section className="relative w-full overflow-hidden " style={{ aspectRatio: "16/9" }}>
+    <section className="relative w-full overflow-hidden h-[70vh] min-h-[500px]">
       {/* Slides */}
       {banners.map((src, index) => (
         <div
@@ -44,61 +46,54 @@ const HeroSection = () => {
             zIndex: current === index ? 10 : 5,
           }}
         >
+          <div className="absolute inset-0 bg-black/40 z-10" />
           <Image
             src={src}
             alt={`Banner ${index + 1}`}
             fill
             priority={index === 0}
             className="object-cover object-center w-full h-full"
-           
           />
         </div>
       ))}
 
+      {/* Text Overlay */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 text-white">
+        <h1 className="font-black text-5xl md:text-7xl lg:text-8xl tracking-tighter drop-shadow-lg mb-2 uppercase">
+          {t('title1')}
+        </h1>
+        <h2 className="font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter drop-shadow-lg mb-6 uppercase">
+          {t('title2')}
+        </h2>
+        <p className="font-bold text-lg md:text-2xl lg:text-3xl max-w-4xl tracking-tight drop-shadow-md uppercase">
+          {t('subtitle')}
+        </p>
+      </div>
+
       {/* Dot Indicators */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
         {banners.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
             aria-label={`Go to slide ${index + 1}`}
-            className="group relative p-1 cursor-pointer"
+            className="group relative p-1 cursor-pointer outline-none"
           >
             <span
               className={`block rounded-full transition-all duration-500 ${
                 current === index
-                  ? "w-8 h-2.5 bg-white shadow-lg"
-                  : "w-2.5 h-2.5 bg-white/50 hover:bg-white/80"
+                  ? "w-10 h-1.5 bg-white shadow-lg"
+                  : "w-2 h-2 bg-white/50 hover:bg-white/80"
               }`}
             />
           </button>
         ))}
       </div>
 
-      {/* Left / Right Arrows */}
-      <button
-        onClick={() => goToSlide((current - 1 + banners.length) % banners.length)}
-        aria-label="Previous slide"
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/20 backdrop-blur-sm text-white flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 hover:bg-black/40 cursor-pointer"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="15 18 9 12 15 6" />
-        </svg>
-      </button>
-      <button
-        onClick={() => goToSlide((current + 1) % banners.length)}
-        aria-label="Next slide"
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/20 backdrop-blur-sm text-white flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 hover:bg-black/40 cursor-pointer"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="9 18 15 12 9 6" />
-        </svg>
-      </button>
-
       {/* Progress Bar */}
-      <div className="absolute bottom-0 left-0 w-full h-0.5 bg-white/10 z-20">
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-20">
         <div
-          className="h-full bg-white/60 transition-none"
+          className="h-full bg-accent transition-none"
           style={{
             animation: "hero-progress 5s linear infinite",
             width: "100%",
