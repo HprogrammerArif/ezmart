@@ -46,7 +46,7 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
     },
     developerContact: {
       email: "work.mohammedarif@gmail.com",
-      website: "https://mohammedarif.com",
+      website: "https://rakib-hasan-arif.vercel.app/",
     },
   });
 });
