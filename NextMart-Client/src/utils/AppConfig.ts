@@ -14,6 +14,8 @@ export const AppConfig = {
   name: 'NextMart',
   tagline: 'Your Premier Online Football Shop',
   logo: '/assets/logo.png',
+  // 'general' = original NextMart layout, 'sports' = FootyStyleHub clone layout
+  storeMode: 'sports' as 'general' | 'sports',
   i18n: {
     locales: ['en', 'bn'] as const,
     defaultLocale: 'en' as const, // ← literal type 'en', not string

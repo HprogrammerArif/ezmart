@@ -5,8 +5,15 @@ import HeroSection from "@/components/modules/home/HeroSection";
 import TopCollection from "@/components/modules/home/TopCollection";
 import TopBrands from "@/components/modules/home/TopBrands";
 import ScrollReveal from "@/components/shared/ScrollReveal";
+import { AppConfig } from "@/utils/AppConfig";
+import SportsHomeView from "@/components/modules/home/sports/SportsHomeView";
 
 const HomePage = async () => {
+  if (AppConfig.storeMode === 'sports') {
+    return <SportsHomeView />;
+  }
+
+  // General E-commerce Mode
   return (
     <div>
       {/* Hero doesn't need reveal — it's above the fold */}
@@ -36,4 +43,5 @@ const HomePage = async () => {
 };
 
 export default HomePage;
+
 
