@@ -45,24 +45,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Top Announcement Bar - Footy Style Hub */}
-      <div className="bg-[#111111] text-white text-xs font-medium py-2 px-4 flex justify-between items-center w-full">
-        <div className="flex-1"></div>
-        <div className="flex-1 text-center tracking-widest uppercase">
-          SHOP FOR THE WORLD CUP!
-        </div>
-        <div className="flex-1 flex justify-end items-center gap-4">
-           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 hover:text-gray-300 outline-none cursor-pointer">
-              <Globe className="w-4 h-4" /> Language
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => changeLanguage('en')}>English</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => changeLanguage('bn')}>Bengali (বাংলা)</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
+     
 
       <header className="border-b bg-white w-full sticky top-0 z-[110] transition-all">
         <Container>
@@ -157,9 +140,18 @@ export default function Navbar() {
                   </Link>
                 )}
 
-                <button className="hover:text-accent transition-colors hidden sm:block">
+                {/* <button className="hover:text-accent transition-colors hidden sm:block">
                   <Clock className="w-5 h-5" />
-                </button>
+                </button> */}
+                 <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-1 hover:text-gray-300 outline-none cursor-pointer">
+              <Globe className="w-4 h-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => changeLanguage('en')}>English</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => changeLanguage('bn')}>Bengali (বাংলা)</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
                 <Link href="/wishlist" className="relative group hover:text-accent transition-colors">
                   <Heart className="w-5 h-5" />

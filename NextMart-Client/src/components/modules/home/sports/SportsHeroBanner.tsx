@@ -11,9 +11,10 @@ const SportsHeroBanner = () => {
         <div className="w-full md:w-1/2">
           <div className="relative aspect-[4/5] rounded-xl overflow-hidden shadow-2xl">
             <Image
-              src="https://images.unsplash.com/photo-1522778119026-d10ec60437dd?q=80&w=1000&auto=format&fit=crop"
+              src="https://picsum.photos/seed/hero/1000/1250"
               alt="World Cup Kits"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
             />
             {/* Dark overlay to make text pop if we ever added text over the image, 

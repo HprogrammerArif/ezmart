@@ -5,7 +5,7 @@ import { ShoppingBag } from "lucide-react";
 
 const promos = [
   {
-    image: "https://images.unsplash.com/photo-1486286701208-1692df89ee6f?q=80&w=600&auto=format&fit=crop",
+    image: "https://picsum.photos/seed/promo1/600/800",
     smallText: "PSG Vs. Arsenal 2026",
     title: "Anticipated Matchup",
     subtitle: "Shop The Best Games To Come",
@@ -13,7 +13,7 @@ const promos = [
     link: "/products",
   },
   {
-    image: "https://images.unsplash.com/photo-1518611507436-b92a736348ef?q=80&w=600&auto=format&fit=crop",
+    image: "https://picsum.photos/seed/promo2/600/800",
     smallText: "",
     title: "",
     subtitle: "",
@@ -21,7 +21,7 @@ const promos = [
     link: "/products",
   },
   {
-    image: "https://images.unsplash.com/photo-1522778119026-d10ec60437dd?q=80&w=600&auto=format&fit=crop",
+    image: "https://picsum.photos/seed/promo3/600/800",
     smallText: "",
     title: "",
     subtitle: "",
@@ -40,6 +40,7 @@ const SportsPromoBanners = () => {
               src={promo.image}
               alt={promo.title || "Promo"}
               fill
+              sizes="(max-width: 768px) 100vw, 33vw"
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
             {/* Gradient Overlay for text readability */}

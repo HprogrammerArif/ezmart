@@ -34,7 +34,7 @@ const HeroSection = () => {
   }, [current, goToSlide]);
 
   return (
-    <section className="relative w-full overflow-hidden h-[70vh] min-h-[500px]">
+    <section className="relative w-full overflow-hidden h-[80vh] min-h-[600px]">
       {/* Slides */}
       {banners.map((src, index) => (
         <div
@@ -57,18 +57,7 @@ const HeroSection = () => {
         </div>
       ))}
 
-      {/* Text Overlay */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 text-white">
-        <h1 className="font-black text-5xl md:text-7xl lg:text-8xl tracking-tighter drop-shadow-lg mb-2 uppercase">
-          {t('title1')}
-        </h1>
-        <h2 className="font-black text-4xl md:text-6xl lg:text-7xl tracking-tighter drop-shadow-lg mb-6 uppercase">
-          {t('title2')}
-        </h2>
-        <p className="font-bold text-lg md:text-2xl lg:text-3xl max-w-4xl tracking-tight drop-shadow-md uppercase">
-          {t('subtitle')}
-        </p>
-      </div>
+   
 
       {/* Dot Indicators */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">

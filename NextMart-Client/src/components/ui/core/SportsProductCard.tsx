@@ -19,6 +19,7 @@ const SportsProductCard = ({ product }: { product: IProduct }) => {
             "https://psediting.websites.co.in/obaju-turquoise/img/product-placeholder.png"
           }
           fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
           alt={product?.name || "Product"}
           className="object-contain object-center transition-transform duration-700 group-hover:scale-105"
         />

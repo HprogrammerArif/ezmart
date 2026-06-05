@@ -5,32 +5,32 @@ import Link from "next/link";
 const collections = [
   {
     title: "New Arrivals",
-    image: "https://images.unsplash.com/photo-1508061253366-206037ba4515?q=80&w=400&auto=format&fit=crop",
+    image: "https://picsum.photos/seed/sport1/400/400",
     link: "/products",
   },
   {
     title: "Best Sellers",
-    image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=400&auto=format&fit=crop",
+    image: "https://picsum.photos/seed/sport2/400/400",
     link: "/products",
   },
   {
     title: "25/26 Season",
-    image: "https://images.unsplash.com/photo-1600181516290-7603612d78bf?q=80&w=400&auto=format&fit=crop",
+    image: "https://picsum.photos/seed/sport3/400/400",
     link: "/products",
   },
   {
     title: "National",
-    image: "https://images.unsplash.com/photo-1522778526582-1c2518e3820a?q=80&w=400&auto=format&fit=crop",
+    image: "https://picsum.photos/seed/sport4/400/400",
     link: "/products",
   },
   {
     title: "Retro",
-    image: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?q=80&w=400&auto=format&fit=crop",
+    image: "https://picsum.photos/seed/sport5/400/400",
     link: "/products",
   },
   {
     title: "Stussy Kits",
-    image: "https://images.unsplash.com/photo-1610419363148-3a99268d8ef5?q=80&w=400&auto=format&fit=crop",
+    image: "https://picsum.photos/seed/sport6/400/400",
     link: "/products",
   },
 ];
@@ -51,6 +51,7 @@ const SportsTopCollections = () => {
                 src={collection.image}
                 alt={collection.title}
                 fill
+                sizes="(max-width: 768px) 33vw, 16vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
             </div>

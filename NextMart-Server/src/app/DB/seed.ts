@@ -188,7 +188,7 @@ const seedCategories = async (adminId: mongoose.Types.ObjectId) => {
    const createdCategories: Record<string, mongoose.Types.ObjectId> = {};
 
    for (const c of categoriesData) {
-      const existing = await Category.findOne({ slug: c.slug });
+      const existing = await Category.findOne({ name: c.name });
       if (existing) {
          console.log(`  ✓ Category "${c.name}" already exists – skipping`);
          createdCategories[c.name] = existing._id as mongoose.Types.ObjectId;
@@ -323,7 +323,7 @@ const seedProducts = async (
          category: categories['Electronics'],
          brand: brands['Samsung'],
          imageUrls: [
-            'https://images.unsplash.com/photo-1593359677879-a4bb92f829e1?w=800&auto=format&fit=crop',
+            'https://picsum.photos/seed/tv1/800/800',
             'https://images.unsplash.com/photo-1567690187548-f07b1d7bf5a9?w=800&auto=format&fit=crop',
          ],
          availableColors: ['Black'],
@@ -340,7 +340,7 @@ const seedProducts = async (
          category: categories['Electronics'],
          brand: brands['LG'],
          imageUrls: [
-            'https://images.unsplash.com/photo-1593359677879-a4bb92f829e1?w=800&auto=format&fit=crop',
+            'https://picsum.photos/seed/tv1/800/800',
             'https://images.unsplash.com/photo-1571415060716-baff5f717c09?w=800&auto=format&fit=crop',
          ],
          availableColors: ['Black'],
@@ -496,7 +496,7 @@ const seedProducts = async (
          category: categories['Sports & Outdoors'],
          brand: brands['Nike'],
          imageUrls: [
-            'https://images.unsplash.com/photo-1546519638405-a9d1bd25df71?w=800&auto=format&fit=crop',
+            'https://picsum.photos/seed/football1/800/800',
             'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&auto=format&fit=crop',
          ],
          availableColors: ['White Black', 'Crimson', 'Blue Yellow'],
@@ -539,17 +539,19 @@ const seedProducts = async (
    ];
 
    let created = 0;
-   let skipped = 0;
+   let updated = 0;
    for (const p of productsData) {
       const existing = await Product.findOne({ name: p.name });
       if (existing) {
-         skipped++;
+         // Force update the images so the broken Unsplash URLs are overwritten
+         await Product.updateOne({ name: p.name }, { $set: { imageUrls: p.imageUrls } });
+         updated++;
          continue;
       }
       await Product.create({ ...p, shop: shopId, slug: toSlug(p.name) });
       created++;
    }
-   console.log(`  ✓ Products: ${created} created, ${skipped} already existed`);
+   console.log(`  ✓ Products: ${created} created, ${updated} updated with fresh images`);
 };
 
 const seedCoupons = async (shopId: mongoose.Types.ObjectId) => {
