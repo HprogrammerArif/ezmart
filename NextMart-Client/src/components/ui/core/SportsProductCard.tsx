@@ -5,6 +5,7 @@ import { Eye, Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Button } from "../button";
 
 interface SportsProductCardProps {
   product: IProduct;
@@ -44,7 +45,7 @@ const SportsProductCard = ({
       className="group block w-full cursor-pointer"
     >
       {/* ── Image Area ─────────────────────────────── */}
-      <div className="relative aspect-[4/5] bg-white overflow-hidden mb-4 flex items-center justify-center">
+      <div className="relative aspect-[7/7] bg-white overflow-hidden mb-4 flex items-center justify-center">
         {/* Product Image */}
         <Image
           src={
@@ -52,9 +53,9 @@ const SportsProductCard = ({
             "https://psediting.websites.co.in/obaju-turquoise/img/product-placeholder.png"
           }
           fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          sizes="100%"
           alt={product?.name || "Product"}
-          className="object-contain object-center transition-transform duration-500 group-hover:scale-105"
+          className="object-cover object-center transition-transform duration-500 group-hover:scale-105 max-h-90"
         />
 
         {/* ── Discount Badge — always visible, white circle ── */}
@@ -120,7 +121,7 @@ const SportsProductCard = ({
       </div>
 
       {/* ── Product Details ─────────────────────────── */}
-      <div className="flex flex-col items-center text-center px-2">
+      <div className="flex flex-col items-center text-center px-2 w-full">
         <h3 className="font-bold text-[14px] leading-snug text-gray-900 mb-2 line-clamp-2">
           {product?.name}
         </h3>
@@ -140,6 +141,10 @@ const SportsProductCard = ({
               ${product.price.toFixed(2)}
             </span>
           )}
+        </div>
+
+        <div className="mt-2 w-full">
+          <Button size="sm" className="w-full">Select Option</Button>
         </div>
       </div>
     </Link>
