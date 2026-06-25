@@ -151,7 +151,7 @@ export default function UpdateProductForm({ product }: { product: IProduct }) {
       formData.append("images", file);
     }
     try {
-      const res = await updateProduct(formData, product?._id);
+      const res = await updateProduct(formData, product!._id);
 
       if (res.success) {
         toast.success(res.message);

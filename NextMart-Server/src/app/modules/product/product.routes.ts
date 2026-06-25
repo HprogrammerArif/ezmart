@@ -15,6 +15,8 @@ router.get('/trending', ProductController.getTrendingProducts);
 
 router.get('/popular', ProductController.getPopularProducts);
 
+router.get('/new-arrivals', ProductController.getNewArrivalProducts);
+
 router.get(
    '/my-shop-products',
    auth(UserRole.USER),

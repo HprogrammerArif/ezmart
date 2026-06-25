@@ -58,6 +58,18 @@ const getPopularProducts = catchAsync(async (req, res) => {
   });
 });
 
+const getNewArrivalProducts = catchAsync(async (req, res) => {
+  const { limit } = req.query;
+  const result = await ProductService.getNewArrivalProducts(Number(limit));
+
+  sendResponse(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: "New arrival products are retrieved successfully",
+    data: result,
+  });
+});
+
 
 
 
@@ -134,6 +146,7 @@ export const ProductController = {
   createProduct,
   getAllProduct,
   getPopularProducts,
+  getNewArrivalProducts,
   getTrendingProducts,
   getSingleProduct,
   updateProduct,

@@ -203,31 +203,23 @@ const getAllProduct = async (query: Record<string, unknown>) => {
 };
 
 
+//  TRENDING PRODUCTS
 const getTrendingProducts = async (limit: number) => {
+   const resolvedLimit = limit || 10;
    const now = new Date();
    const last30Days = new Date(now.setDate(now.getDate() - 30));
 
    const trendingProducts = await Order.aggregate([
-      {
-         $match: {
-            createdAt: { $gte: last30Days },
-         },
-      },
-      {
-         $unwind: '$products',
-      },
+      { $match: { createdAt: { $gte: last30Days } } },
+      { $unwind: '$products' },
       {
          $group: {
             _id: '$products.product',
             orderCount: { $sum: '$products.quantity' },
          },
       },
-      {
-         $sort: { orderCount: -1 },
-      },
-      {
-         $limit: limit || 10,
-      },
+      { $sort: { orderCount: -1 } },
+      { $limit: resolvedLimit },
       {
          $lookup: {
             from: 'products',
@@ -236,50 +228,71 @@ const getTrendingProducts = async (limit: number) => {
             as: 'productDetails',
          },
       },
-      {
-         $unwind: '$productDetails',
-      },
+      { $unwind: '$productDetails' },
+      { $match: { 'productDetails.isActive': true } },
       {
          $project: {
-            _id: 0,
-            productId: '$_id',
+            _id: '$productDetails._id',
             orderCount: 1,
             name: '$productDetails.name',
+            slug: '$productDetails.slug',
             price: '$productDetails.price',
-            offer: '$productDetails.offer',
             imageUrls: '$productDetails.imageUrls',
+            stock: '$productDetails.stock',
+            averageRating: '$productDetails.averageRating',
+            ratingCount: '$productDetails.ratingCount',
          },
       },
    ]);
 
-   return trendingProducts;
+   if (trendingProducts.length > 0) {
+      return { data: trendingProducts, source: 'orders' };
+   }
+
+   // Fallback: top-rated products
+   const topRated = await Product.find({ isActive: true, averageRating: { $gt: 0 } })
+      .sort({ averageRating: -1, ratingCount: -1 })
+      .limit(resolvedLimit)
+      .select('name slug price imageUrls stock averageRating ratingCount')
+      .lean();
+
+   if (topRated.length > 0) {
+      return { data: topRated, source: 'top_rated' };
+   }
+
+   // Final fallback: newest products
+   const newest = await Product.find({ isActive: true })
+      .sort({ createdAt: -1 })
+      .limit(resolvedLimit)
+      .select('name slug price imageUrls stock averageRating ratingCount')
+      .lean();
+
+   return { data: newest, source: 'newest' };
 };
 
+
+//  BEST SELLER
 const getPopularProducts = async (limit: number) => {
+   const resolvedLimit = limit || 10;
    const now = new Date();
    const last30Days = new Date(now.setDate(now.getDate() - 30));
 
+   // ── Tier 1: Order-based popularity (last 30 days) ──────────────────────
    const popularProducts = await Order.aggregate([
       {
          $match: {
             createdAt: { $gte: last30Days },
          },
       },
-      {
-         $unwind: '$products',
-      },
+      { $unwind: '$products' },
       {
          $group: {
             _id: '$products.product',
             orderCount: { $sum: '$products.quantity' },
          },
       },
-      {
-         $sort: { orderCount: -1 },
-      },
-      {
-         $limit: limit || 10,
-      },
+      { $sort: { orderCount: -1 } },
+      { $limit: resolvedLimit },
       {
          $lookup: {
             from: 'products',
@@ -288,26 +301,63 @@ const getPopularProducts = async (limit: number) => {
             as: 'productDetails',
          },
       },
+      { $unwind: '$productDetails' },
       {
-         $unwind: '$productDetails',
+         $match: { 'productDetails.isActive': true },
       },
       {
          $project: {
-            _id: '$_id',
+            _id: '$productDetails._id',
             orderCount: 1,
             name: '$productDetails.name',
+            slug: '$productDetails.slug',
             price: '$productDetails.price',
-            offer: '$productDetails.offer',
-            offerPrice: '$productDetails.offerPrice',
             imageUrls: '$productDetails.imageUrls',
             stock: '$productDetails.stock',
             averageRating: '$productDetails.averageRating',
+            ratingCount: '$productDetails.ratingCount',
          },
       },
    ]);
 
-   return popularProducts;
+   if (popularProducts.length > 0) {
+      return { data: popularProducts, source: 'orders' };
+   }
+
+   // ── Tier 2: Top-rated products (fallback when no recent orders) ─────────
+   const topRated = await Product.find({ isActive: true, averageRating: { $gt: 0 } })
+      .sort({ averageRating: -1, ratingCount: -1 })
+      .limit(resolvedLimit)
+      .select('name slug price imageUrls stock averageRating ratingCount')
+      .lean();
+
+   if (topRated.length > 0) {
+      return { data: topRated, source: 'top_rated' };
+   }
+
+   // ── Tier 3: Newest products (final fallback — always returns something) ──
+   const newest = await Product.find({ isActive: true })
+      .sort({ createdAt: -1 })
+      .limit(resolvedLimit)
+      .select('name slug price imageUrls stock averageRating ratingCount')
+      .lean();
+
+   return { data: newest, source: 'newest' };
 };
+
+//  NEW ARRIVALS PRODUCTS — sorted by createdAt descending (always has data)
+const getNewArrivalProducts = async (limit: number) => {
+   const resolvedLimit = limit || 10;
+
+   const newArrivalProducts = await Product.find({ isActive: true })
+      .sort({ createdAt: -1 })
+      .limit(resolvedLimit)
+      .select('name slug price imageUrls stock averageRating ratingCount')
+      .lean();
+
+   return { data: newArrivalProducts };
+};
+
 
 
 const getSingleProduct = async (productId: string) => {
@@ -448,9 +498,10 @@ export const ProductService = {
    createProduct,
    getAllProduct,
    getTrendingProducts,
+   getPopularProducts,
+   getNewArrivalProducts,
    getSingleProduct,
    updateProduct,
    deleteProduct,
    getMyShopProducts,
-   getPopularProducts
 };

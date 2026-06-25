@@ -1,120 +1,13 @@
-"use server";
-import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
+/**
+ * Product Service — Barrel
+ *
+ * No "use server" directive here. This file simply re-exports everything
+ * from the two sub-modules so the rest of the codebase can import from
+ * "@/services/Product" without knowing the internal structure.
+ *
+ * queries.ts   — plain async fetches, safe for Server + Client Components
+ * mutations.ts — "use server" actions, for forms/buttons that mutate data
+ */
 
-// get all products
-export const getAllProducts = async (
-  page?: string,
-  limit?: string,
-  query?: { [key: string]: string | string[] | undefined }
-) => {
-  const params = new URLSearchParams();
-
-  if (query?.price) {
-    params.append("minPrice", "0");
-    params.append("maxPrice", query?.price.toString());
-  }
-
-  if (query?.category) {
-    params.append("categories", query?.category.toString());
-  }
-  if (query?.brand) {
-    params.append("brands", query?.brand.toString());
-  }
-  if (query?.rating) {
-    params.append("ratings", query?.rating.toString());
-  }
-
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/product?limit=${limit}&page=${page}&${params}`,
-      {
-        next: {
-          tags: ["PRODUCT"],
-        },
-      }
-    );
-    const data = await res.json();
-    return data;
-  } catch (error: any) {
-    return Error(error.message);
-  }
-};
-
-// get single product
-export const getSingleProduct = async (productId: string) => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/product/${productId}`,
-      {
-        next: {
-          tags: ["PRODUCT"],
-        },
-      }
-    );
-    const data = await res.json();
-    return data;
-  } catch (error: any) {
-    return Error(error.message);
-  }
-};
-
-// get popular products
-export const getPopularProducts = async (limit?: number) => {
-  try {
-    const query = limit ? `?limit=${limit}` : "";
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/product/popular${query}`,
-      {
-        next: {
-          tags: ["PRODUCT"],
-        },
-      }
-    );
-    const data = await res.json();
-    return data;
-  } catch (error: any) {
-    return Error(error.message);
-  }
-};
-
-
-// add product
-export const addProduct = async (productData: FormData): Promise<any> => {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/product`, {
-      method: "POST",
-      body: productData,
-      headers: {
-        Authorization: (await cookies()).get("accessToken")!.value,
-      },
-    });
-    revalidateTag("PRODUCT");
-    return res.json();
-  } catch (error: any) {
-    return Error(error);
-  }
-};
-
-// update product
-export const updateProduct = async (
-  productData: FormData,
-  productId: string
-): Promise<any> => {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/product/${productId}`,
-      {
-        method: "PATCH",
-        body: productData,
-        headers: {
-          Authorization: (await cookies()).get("accessToken")!.value,
-        },
-      }
-    );
-    revalidateTag("PRODUCT");
-    return res.json();
-  } catch (error: any) {
-    return Error(error);
-  }
-};
+export * from "./queries";
+export * from "./mutations";
