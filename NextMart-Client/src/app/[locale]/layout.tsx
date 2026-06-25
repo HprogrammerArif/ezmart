@@ -86,7 +86,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <Toaster richColors position="top-center" />

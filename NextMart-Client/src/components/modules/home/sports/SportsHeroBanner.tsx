@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
+
 const SportsHeroBanner = () => {
   return (
     <NMContainer className="py-12">
@@ -11,7 +12,7 @@ const SportsHeroBanner = () => {
         <div className="w-full md:w-1/2">
           <div className="relative aspect-[1/1] sm:aspect-[5/4] md:aspect-square lg:aspect-[4/4] xl:aspect-[5/4] max-h-[500px] rounded-xl overflow-hidden shadow-2xl">
             <Image
-              src="https://picsum.photos/seed/hero/1000/1250"
+              src="/sports-hero.png"
               alt="World Cup Kits"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
